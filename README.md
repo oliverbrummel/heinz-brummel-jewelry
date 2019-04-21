@@ -1,6 +1,9 @@
 # HeinzBrummelJewelry
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+
+## Node server
+
+With node installed (v11.8.0?), run `npm run start:node`. Then you can hit it at `http://localhost:3000`.
 
 ## Development server
 
