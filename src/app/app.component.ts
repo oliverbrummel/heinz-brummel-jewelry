@@ -14,11 +14,23 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'heinz-brummel-jewelry';
 
   ngOnInit() {
-    this.jewelryService.getEarrings();
+    this.jewelryService.getJewelryBags();
     this.jewelryBagsSub = this.jewelryService.getUpdateListener()
       .subscribe((updatedBags: JewelryBag[]) => {
         console.log('LIST OF BAGS', updatedBags);
       });
+  }
+
+  addJewelryBag() {
+    const mockBag: JewelryBag = {
+      id: '3',
+      desc: 'testing',
+      name: 'wawaweewa',
+      price: '$100',
+      photo: '',
+      type: 'earring'
+    };
+    this.jewelryService.addJewelryBag(mockBag);
   }
 
   ngOnDestroy() {

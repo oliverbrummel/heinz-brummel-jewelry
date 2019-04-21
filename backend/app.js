@@ -15,6 +15,9 @@ app.use((req, res, next) => {
 app.post('/api/earrings', (req, res, next) => {
   const newEarring = req.body;
   console.log('New Earring Post!', newEarring);
+  res.status(201).json({
+    message: 'New jewelry bag added successfully!'
+  })
 });
 
 app.use('/api/earrings', (req, res, next) => {

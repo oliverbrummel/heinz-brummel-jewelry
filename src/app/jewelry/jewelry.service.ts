@@ -12,11 +12,20 @@ export class JewelryService {
   private jewelryBags: JewelryBag[] = [];
   private jewelryBagsUpdated = new Subject<JewelryBag[]>();
 
-  getEarrings() {
+  getJewelryBags() {
     return this.http.get<{message: string, data: JewelryBag[]}>('http://localhost:3000/api/earrings')
       .subscribe((response) => {
         console.log('RESPONSE from SERVER!', response);
         this.jewelryBags = response.data;
+        this.jewelryBagsUpdated.next([...this.jewelryBags]);
+      });
+  }
+
+  addJewelryBag(newBag: JewelryBag) {
+    this.http.post<{message: string}>('http://localhost:3000/api/earrings', newBag)
+      .subscribe((response) => {
+        console.log(response.message);
+        this.jewelryBags.push(newBag);
         this.jewelryBagsUpdated.next([...this.jewelryBags]);
       });
   }
