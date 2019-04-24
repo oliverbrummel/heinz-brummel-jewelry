@@ -23,7 +23,6 @@ app.post('/api/earrings', (req, res, next) => {
 app.use('/api/earrings', (req, res, next) => {
   const jewelryBags = [
     {
-      id: 1,
       type: 'earring',
       name: 'Golden Bulbs',
       desc: 'oxidized silver, gold, gold leaf over wood',
@@ -31,7 +30,6 @@ app.use('/api/earrings', (req, res, next) => {
       price: '$300'
     },
     {
-      id: 2,
       type: 'earring',
       name: 'Big Red Hearts',
       desc: 'enamel, silver, gold, black onyx',
