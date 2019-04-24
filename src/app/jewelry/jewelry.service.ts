@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
@@ -16,7 +15,6 @@ export class JewelryService {
   private jewelryBagCollection: AngularFirestoreCollection;
 
   constructor(
-    private http: HttpClient,
     public db: AngularFirestore
   ) {
     this.jewelryBagCollection = db.collection<any>('jewelry-bags');

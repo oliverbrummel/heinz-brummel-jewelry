@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
@@ -19,7 +18,6 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebase, 'heinz-brummel-jewelry'),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    HttpClientModule,
     AppRoutingModule
   ],
   providers: [{ provide: FirestoreSettingsToken, useValue: {}}],

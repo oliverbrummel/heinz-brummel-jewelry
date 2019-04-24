@@ -29,7 +29,6 @@ export class AppComponent implements OnInit, OnDestroy {
       type: 'earring'
     };
     this.jewelryService.addToCollection(mockBag);
-    // this.jewelryService.addJewelryBag(mockBag);
   }
 
   ngOnDestroy() {
