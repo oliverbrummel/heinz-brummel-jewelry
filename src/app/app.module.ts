@@ -1,9 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -11,10 +15,12 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase, 'heinz-brummel-jewelry'),
+    AngularFirestoreModule,
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [{ provide: FirestoreSettingsToken, useValue: {}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

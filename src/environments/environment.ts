@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyASI82nJG4FXPjgDuxwBXIInt_Z1jAGD3c',
+    authDomain: 'heinz-brummel-jewelry.firebaseapp.com',
+    databaseURL: 'https://heinz-brummel-jewelry.firebaseio.com',
+    projectId: 'heinz-brummel-jewelry',
+    storageBucket: 'heinz-brummel-jewelry.appspot.com',
+    messagingSenderId: '33313005180'
+  }
 };
 
 /*
