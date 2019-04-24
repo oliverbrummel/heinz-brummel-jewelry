@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   addJewelryBag() {
     const mockBag: JewelryBag = {
-      id: '3',
+      id: null,
       desc: 'testing',
       name: 'wawaweewa',
       price: '$100',
