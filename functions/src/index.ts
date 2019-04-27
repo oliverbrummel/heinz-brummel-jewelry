@@ -1,15 +1,12 @@
-const functions = require('firebase-functions');
-
 import { Storage } from '@google-cloud/storage';
 const gcs = new Storage();
-
+const functions = require('firebase-functions');
 const os = require('os');
 const path = require('path');
-
 const sharp = require('sharp');
 const fs = require('fs-extra');
 
-export const generateThumbs = functions.storage
+exports.generateThumbs = functions.storage
   .object()
   .onFinalize(async (object: any) => {
     const bucket = gcs.bucket(object.bucket);
@@ -58,4 +55,12 @@ export const generateThumbs = functions.storage
     // 5. Cleanup remove the tmp/thumbs from the filesystem
     return fs.remove(workingDir);
   });
+
+
+  exports.uploadFile = functions.https
+    .onRequest((req: any, res: any) => {
+      res.status(200).json({
+        message: 'IT WORKED'
+      });
+    });
 
