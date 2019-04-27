@@ -7,7 +7,12 @@ import * as fs from 'fs-extra';
 import * as cors from 'cors';
 import * as Busboy from 'busboy';
 
-const gcs = new Storage();
+const gconfig = {
+  projectId: 'heinz-brummel-jewelry',
+  keyFilename: 'heinz-brummel-jewelry-firebase-adminsdk-d0ugm-ffe546293b.json'
+}
+
+const gcs = new Storage(gconfig);
 const corsHandler = cors({origin: true});
 
 export const generateThumbs = functions.storage
@@ -70,33 +75,37 @@ export const generateThumbs = functions.storage
           })
         }
         const busboy = new Busboy({ headers: req.headers });
-        // let uploadData: any = null;
+        let uploadData: any = null;
 
         busboy.on('file', (fieldname: any, file: any, filename: any, encoding: any, mimetype: any) => {
-          // const filepath = join(tmpdir(), filename);
-          // uploadData = {file: filepath, type: mimetype};
+          const filepath = join(tmpdir(), filename);
+          uploadData = {file: filepath, type: mimetype};
+          file.pipe(fs.createWriteStream(filepath))
         });
 
         busboy.on('finish', () => {
-          // const bucket = gcs.bucket('heinz-brummel-jewelry.appspot.com');
-          // bucket.upload(uploadData.file, {
-          //   uploadType: 'media',
-          //   metadata: {
-          //     metadata: {
-          //       contentType: uploadData.type
-          //     }
-          //   }
-          // }).then((err: any, uploadedFile: any) => {
-          //   if (err) {
-          //     return res.status(500).json({
-          //       error: err
-          //     })
-          //   }
-          //   res.status(200).json({
-          //     message: 'IT WORKED'
-          //   });
-          // });
+          const bucket = gcs.bucket('heinz-brummel-jewelry.appspot.com');
+          const options = {
+            uploadType: 'media',
+            metadata: {
+              metadata: {
+                contentType: uploadData.type
+              }
+            }
+          }
+          bucket.upload(uploadData.file, options)
+            .then(() => {
+              res.status(200).json({
+                message: 'IT WORKED'
+              });
+            })
+            .catch(err => {
+              res.status(500).json({
+                error: err
+              });
+            });
         });
+        busboy.end(req.rawBody);
       });
     });
 
