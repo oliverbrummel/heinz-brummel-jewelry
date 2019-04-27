@@ -1,21 +1,25 @@
+import * as functions from 'firebase-functions';
 import { Storage } from '@google-cloud/storage';
-const gcs = new Storage();
-const functions = require('firebase-functions');
-const os = require('os');
-const path = require('path');
-const sharp = require('sharp');
-const fs = require('fs-extra');
+import { tmpdir } from 'os';
+import { join, dirname } from 'path';
+import * as sharp from 'sharp';
+import * as fs from 'fs-extra';
+import * as cors from 'cors';
+import * as Busboy from 'busboy';
 
-exports.generateThumbs = functions.storage
+const gcs = new Storage();
+const corsHandler = cors({origin: true});
+
+export const generateThumbs = functions.storage
   .object()
   .onFinalize(async (object: any) => {
     const bucket = gcs.bucket(object.bucket);
     const filePath = object.name; // get full path to file in bucket
     const fileName = filePath.split('/').pop();
-    const bucketDir = path.dirname(filePath);
+    const bucketDir = dirname(filePath);
 
-    const workingDir = path.join(os.tmpdir(), 'thumbs');
-    const tmpFilePath = path.join(workingDir, 'source.png'); // should this be jpg or anything?
+    const workingDir = join(tmpdir(), 'thumbs');
+    const tmpFilePath = join(workingDir, 'source.png'); // should this be jpg or anything?
 
     // exit function if image has already been resized, or if there is no image in the upload
     if (fileName.includes('thumb@') || !object.contentType.includes('image')) {
@@ -36,7 +40,7 @@ exports.generateThumbs = functions.storage
 
     const uploadPromises = sizes.map(async size => {
       const thumbName = `thumb@${size}_${fileName}`;
-      const thumbPath = path.join(workingDir, thumbName);
+      const thumbPath = join(workingDir, thumbName);
 
       // Resize source image
       await sharp(tmpFilePath)
@@ -45,7 +49,7 @@ exports.generateThumbs = functions.storage
 
       // Upload to GCS
       return bucket.upload(thumbPath, {
-        destination: path.join(bucketDir, thumbName)
+        destination: join(bucketDir, thumbName)
       });
     });
 
@@ -57,10 +61,42 @@ exports.generateThumbs = functions.storage
   });
 
 
-  exports.uploadFile = functions.https
+  export const uploadFile = functions.https
     .onRequest((req: any, res: any) => {
-      res.status(200).json({
-        message: 'IT WORKED'
+      corsHandler(req, res, () => {
+        if (req.method !== 'POST') {
+          return res.status(500).json({
+            message: 'Not allowed'
+          })
+        }
+        const busboy = new Busboy({ headers: req.headers });
+        // let uploadData: any = null;
+
+        busboy.on('file', (fieldname: any, file: any, filename: any, encoding: any, mimetype: any) => {
+          // const filepath = join(tmpdir(), filename);
+          // uploadData = {file: filepath, type: mimetype};
+        });
+
+        busboy.on('finish', () => {
+          // const bucket = gcs.bucket('heinz-brummel-jewelry.appspot.com');
+          // bucket.upload(uploadData.file, {
+          //   uploadType: 'media',
+          //   metadata: {
+          //     metadata: {
+          //       contentType: uploadData.type
+          //     }
+          //   }
+          // }).then((err: any, uploadedFile: any) => {
+          //   if (err) {
+          //     return res.status(500).json({
+          //       error: err
+          //     })
+          //   }
+          //   res.status(200).json({
+          //     message: 'IT WORKED'
+          //   });
+          // });
+        });
       });
     });
 
