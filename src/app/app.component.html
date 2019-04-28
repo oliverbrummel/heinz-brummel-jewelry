@@ -9,6 +9,10 @@
   <br>
   <input type="file" (change)="onFileSelected($event)">
   <button type="button" (click)="onUpload()">Upload</button>
+  <!-- <a [href]="downloadURL | async">{{ downloadURL | async }}</a> -->
+  <div>
+    <img [src]="downloadURL | async" alt="" class="src">
+  </div>
 
 </div>
 
