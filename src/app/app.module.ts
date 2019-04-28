@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -16,7 +15,6 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase, 'heinz-brummel-jewelry'),
     AngularFirestoreModule,
     AngularFireStorageModule,

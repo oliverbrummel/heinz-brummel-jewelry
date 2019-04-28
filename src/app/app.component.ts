@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { JewelryService } from './jewelry/jewelry.service';
 import { JewelryBag } from './jewelry/jewelry-bag';
-import { HttpClient } from '@angular/common/http';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,16 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private jewelryService: JewelryService,
-    private http: HttpClient
+    private storage: AngularFireStorage
     ) {}
 
   private jewelryBagsSub: Subscription;
   title = 'heinz-brummel-jewelry';
   selectedFile: File = null;
+  uploadTask: AngularFireUploadTask;
+  snapshot: Observable<any>;
+  percentage: Observable<number>;
+  downloadURL: Observable<string>;
 
   ngOnInit() {
     this.jewelryBagsSub = this.jewelryService.getUpdateListener()
@@ -33,12 +38,20 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onUpload(): any {
-    const fd = new FormData();
-    fd.append('image', this.selectedFile, this.selectedFile.name)
-    this.http.post('https://us-central1-heinz-brummel-jewelry.cloudfunctions.net/uploadFile', fd)
-      .subscribe(res => {
-        console.log('RESPONSE FROM UPLOAD', res);
-      });
+    const path = `earring/${new Date().getTime()}_${this.selectedFile.name}`;
+    const fileRef = this.storage.ref(path);
+    this.uploadTask = this.storage.upload(path, this.selectedFile);
+
+    this.percentage = this.uploadTask.percentageChanges();
+
+    this.uploadTask.snapshotChanges().pipe(
+      finalize(() => this.downloadURL = fileRef.getDownloadURL())
+    )
+    .subscribe();
+
+    this.percentage.subscribe((percent) => {
+      console.log('percentage!', percent);
+    });
   }
 
   addJewelryBag() {
