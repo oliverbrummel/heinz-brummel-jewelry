@@ -1,0 +1,7 @@
+<div>
+  <input type="file" (change)="onFileSelected($event)">
+  <button type="button" (click)="onUpload()">Upload</button>
+  <div>
+    <img [style.width]="'200px'" [src]="downloadURL | async" alt="" class="src">
+  </div>
+</div>
