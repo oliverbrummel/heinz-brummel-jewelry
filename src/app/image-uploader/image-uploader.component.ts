@@ -9,13 +9,14 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./image-uploader.component.sass']
 })
 export class ImageUploaderComponent implements OnInit {
-  constructor( private storage: AngularFireStorage) { }
-
+  previewURL: any;
   selectedFile: File = null;
   uploadTask: AngularFireUploadTask;
   snapshot: Observable<any>;
   percentage: Observable<number>;
   downloadURL: Observable<string>;
+
+  constructor( private storage: AngularFireStorage) { }
 
   ngOnInit() {
   }
@@ -23,6 +24,13 @@ export class ImageUploaderComponent implements OnInit {
   onFileSelected(event: any): any {
     console.log('onFileSelected - event', event);
     this.selectedFile = event.target.files[0] as File;
+
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.previewURL = reader.result;
+    }, false);
+
+    reader.readAsDataURL(this.selectedFile);
   }
 
   onUpload(): any {
