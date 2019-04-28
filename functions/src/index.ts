@@ -7,12 +7,7 @@ import * as fs from 'fs-extra';
 import * as cors from 'cors';
 import * as Busboy from 'busboy';
 
-const gconfig = {
-  projectId: 'heinz-brummel-jewelry',
-  keyFilename: 'heinz-brummel-jewelry-firebase-adminsdk-d0ugm-ffe546293b.json'
-}
-
-const gcs = new Storage(gconfig);
+const gcs = new Storage();
 const corsHandler = cors({origin: true});
 
 export const generateThumbs = functions.storage
