@@ -4,6 +4,12 @@
     Welcome to {{ title }}!
   </h1>
   <button (click)="addJewelryBag()">ADD BAG</button>
+
+  <br>
+  <br>
+  <input type="file" (change)="onFileSelected($event)">
+  <button type="button" (click)="onUpload()">Upload</button>
+
 </div>
 
 <router-outlet></router-outlet>
