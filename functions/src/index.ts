@@ -7,6 +7,8 @@ import * as fs from 'fs-extra';
 import * as cors from 'cors';
 import * as Busboy from 'busboy';
 
+// TODO: May need to implement admin sdk sometime?
+
 const gcs = new Storage();
 const corsHandler = cors({origin: true});
 
