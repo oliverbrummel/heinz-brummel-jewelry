@@ -11,11 +11,13 @@ import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
 import { ImageUploaderComponent } from './image-uploader/image-uploader.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ImageUploaderComponent
+    ImageUploaderComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
