@@ -3,12 +3,61 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <button (click)="addJewelryBag()">ADD BAG</button>
 
   <br>
   <br>
+
   <app-image-uploader></app-image-uploader>
 
+  <br>
+  <br>
+
+  <div class="container">
+    <form (ngSubmit)="addJewelryBag()" #bagForm="ngForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class="form-control"
+          id="name"
+          name="name"
+          type="text"
+          [(ngModel)]="bag.name"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Description</label>
+        <input class="form-control"
+          id="name"
+          name="description"
+          type="text"
+          [(ngModel)]="bag.description"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Price</label>
+        <input class="form-control"
+          id="name"
+          name="price"
+          type="text"
+          [(ngModel)]="bag.price"
+          required>
+      </div>
+
+      <button type="submit" class="btn btn-success">Add Bag</button>
+    </form>
+  </div>
+</div>
+
+<div *ngFor="let bag of bags">
+  <ul>
+    <li>name: {{ bag.name }}</li>
+    <li>description: {{ bag.description }}</li>
+    <li>price: {{ bag.price }}</li>
+    <li>type: {{ bag.type }}</li>
+    <li>imageUrl: {{ bag.imageUrl }}</li>
+  </ul>
+  <br>
 </div>
 
 <router-outlet></router-outlet>

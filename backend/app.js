@@ -25,15 +25,15 @@ app.use('/api/earrings', (req, res, next) => {
     {
       type: 'earring',
       name: 'Golden Bulbs',
-      desc: 'oxidized silver, gold, gold leaf over wood',
-      image: '',
+      description: 'oxidized silver, gold, gold leaf over wood',
+      imageUrl: '',
       price: '$300'
     },
     {
       type: 'earring',
       name: 'Big Red Hearts',
-      desc: 'enamel, silver, gold, black onyx',
-      image: '',
+      description: 'enamel, silver, gold, black onyx',
+      imageUrl: '',
       price: '$450'
     }
   ];

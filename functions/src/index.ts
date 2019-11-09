@@ -7,6 +7,8 @@ import * as fs from 'fs-extra';
 import * as cors from 'cors';
 import * as Busboy from 'busboy';
 
+// import * as firebase from 'firebase';
+
 // TODO: May need to implement admin sdk sometime?
 
 const gcs = new Storage();
@@ -15,6 +17,7 @@ const corsHandler = cors({origin: true});
 export const generateThumbs = functions.storage
   .object()
   .onFinalize(async (object: any) => {
+    console.log('onFinalize', object);
     const bucket = gcs.bucket(object.bucket);
     const filePath = object.name; // get full path to file in bucket
     const fileName = filePath.split('/').pop();
@@ -52,6 +55,9 @@ export const generateThumbs = functions.storage
       // Upload to GCS
       return bucket.upload(thumbPath, {
         destination: join(bucketDir, thumbName)
+      }).then((data) => {
+        console.log('### DATA!!!', data);
+        console.log('### data[0].metadata.mediaUrl!!!', data[0].metadata.mediaUrl);
       });
     });
 

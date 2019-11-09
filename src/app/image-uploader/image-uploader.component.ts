@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { JewelryService } from '../jewelry/jewelry.service';
 
 @Component({
   selector: 'app-image-uploader',
@@ -15,8 +16,17 @@ export class ImageUploaderComponent implements OnInit {
   snapshot: Observable<any>;
   percentage: Observable<number>;
   downloadURL: Observable<string>;
+  docIdSubscription: Subscription;
 
-  constructor( private storage: AngularFireStorage) { }
+  metadata: any;
+
+  constructor( private storage: AngularFireStorage, private jewelryService: JewelryService) {
+    this.jewelryService.docId$.subscribe((docId) => {
+      console.log('docId in CHILD!!', docId);
+      this.metadata = { documentId: docId };
+      this.onUpload();
+    });
+  }
 
   ngOnInit() {
   }
@@ -34,9 +44,9 @@ export class ImageUploaderComponent implements OnInit {
   }
 
   onUpload(): any {
-    const path = `earring/${new Date().getTime()}_${this.selectedFile.name}`;
+    const path = `earring/${this.selectedFile.name}`;
     const fileRef = this.storage.ref(path);
-    this.uploadTask = this.storage.upload(path, this.selectedFile);
+    this.uploadTask = this.storage.upload(path, this.selectedFile, this.metadata);
 
     this.percentage = this.uploadTask.percentageChanges();
 

@@ -12,7 +12,10 @@ import { Subject } from 'rxjs';
 export class JewelryService {
   jewelryBags: any[] = [];
   private jewelryBagsUpdated = new Subject<JewelryBag[]>();
+  private docIdSource = new Subject<string>();
   private jewelryBagCollection: AngularFirestoreCollection;
+
+  docId$ = this.docIdSource.asObservable();
 
   constructor(
     public db: AngularFirestore
@@ -29,7 +32,9 @@ export class JewelryService {
   }
 
   async addToCollection(newBag: JewelryBag) {
-    await this.jewelryBagCollection.add(newBag);
+    const docId = String(new Date().getTime());
+    this.docIdSource.next(docId);
+    await this.jewelryBagCollection.doc(docId).set(newBag);
     this.jewelryBagsUpdated.next([...this.jewelryBags]);
   }
 

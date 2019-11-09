@@ -1,7 +1,10 @@
-export interface JewelryBag {
-  desc: string;
+export class JewelryBag {
+  constructor() {
+  }
+
+  description: string;
   name: string;
   price: string;
-  image: string;
+  imageUrl: string;
   type: string;
 }

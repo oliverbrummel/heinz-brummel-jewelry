@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { JewelryService } from './jewelry/jewelry.service';
 import { JewelryBag } from './jewelry/jewelry-bag';
@@ -15,23 +15,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private jewelryBagsSub: Subscription;
   title = 'heinz-brummel-jewelry';
+  bag = new JewelryBag();
+  bags: JewelryBag[];
 
   ngOnInit() {
     this.jewelryBagsSub = this.jewelryService.getUpdateListener()
       .subscribe((updatedBags: JewelryBag[]) => {
-        console.log('LIST OF BAGS', updatedBags);
+        this.bags = updatedBags;
+        console.log('App Init - this.bags', this.bags);
       });
   }
 
   addJewelryBag() {
-    const mockBag: JewelryBag = {
-      desc: 'testing',
-      name: 'wawaweewa',
-      price: '$100',
-      image: '.....',
-      type: 'earring'
-    };
-    this.jewelryService.addToCollection(mockBag);
+    this.bag.type = 'earring';
+    const newData = JSON.parse(JSON.stringify(this.bag));
+    this.jewelryService.addToCollection(newData);
   }
 
   ngOnDestroy() {
