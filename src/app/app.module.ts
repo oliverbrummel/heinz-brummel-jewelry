@@ -11,13 +11,15 @@ import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
 import { ImageUploaderComponent } from './image-uploader/image-uploader.component';
-import { SiteHeaderComponent } from './site-header/site-header.component';
+import { PageHeaderComponent } from './page-header/page-header.component';
+import { MainContentComponent } from './main-content/main-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ImageUploaderComponent,
-    SiteHeaderComponent
+    PageHeaderComponent,
+    MainContentComponent
   ],
   imports: [
     BrowserModule,
