@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+
+.main-content--container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  @include responsive-medium {
+    flex-direction: row;
+  }
+}
