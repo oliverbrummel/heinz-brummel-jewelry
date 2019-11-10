@@ -14,6 +14,7 @@ import { ImageUploaderComponent } from './image-uploader/image-uploader.componen
 import { PageHeaderComponent } from './page-header/page-header.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { PageFooterComponent } from './page-footer/page-footer.component';
+import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
     ImageUploaderComponent,
     PageHeaderComponent,
     MainContentComponent,
-    PageFooterComponent
+    PageFooterComponent,
+    ImageSlideshowComponent
   ],
   imports: [
     BrowserModule,
