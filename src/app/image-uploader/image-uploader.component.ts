@@ -7,7 +7,7 @@ import { JewelryService } from '../jewelry/jewelry.service';
 @Component({
   selector: 'app-image-uploader',
   templateUrl: './image-uploader.component.html',
-  styleUrls: ['./image-uploader.component.sass']
+  styleUrls: ['./image-uploader.component.scss']
 })
 export class ImageUploaderComponent implements OnInit {
   previewURL: any;
