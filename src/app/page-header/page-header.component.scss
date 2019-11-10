@@ -1,5 +1,14 @@
 @import '../../variables.scss';
 
+header {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  background-color: #ffffff;
+}
+
 h1 {
   font-family: $font-family--sans-serif;
 }
