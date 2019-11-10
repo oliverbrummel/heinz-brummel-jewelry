@@ -1,1 +1,32 @@
-$font-family-sans-serif: 'Raleway', Arial, sans-serif;
+$font-family--sans-serif: 'Raleway', Arial, sans-serif;
+
+$screen-sm-min: 576px;
+$screen-md-min: 768px;
+$screen-lg-min: 992px;
+$screen-xl-min: 1200px;
+
+
+// responsive breakpoint mixins
+@mixin responsive-small {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+@mixin responsive-medium {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+@mixin responsive-large {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+@mixin responsive-xlarge {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
